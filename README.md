@@ -12,7 +12,7 @@ A minimal web app that demonstrates **CRUD** on a `students` table in **PostgreS
 
 ---
 
-## 1) Repo Files for Flow
+## 1) File Flow
 
 **app/**
 - `flask_app.py` — Flask web application (CRUD logic + routes)
@@ -101,22 +101,23 @@ PGDATABASE=comp3005_a3
 PGUSER=postgres
 PGPASSWORD=your_password_here
 ```
-5) Install & Run the App
+## 6) Install & Run the App
 
-```
+```bash
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python app/test_connection.py    # optional: verify DB connectivity
-python app/flask_app.py          # run the app
 ```
+**Run the application:**
+`python app/flask_app.py`
 
-Open the UI in your browser:
+**Now open the UI in your browser:**
 http://127.0.0.1:5000
 
 ---
 
-## 6) CRUD Demonstration
+## 7) CRUD Demonstration
 
 | Operation  | Where to Perform It            | Verification                    |
 | ---------- | ------------------------------ | ------------------------------- |
@@ -137,7 +138,7 @@ SELECT * FROM students;
 ```
 ---
 
-## 7) Troubleshooting
+## 8) Troubleshooting
 
 - Wrong password / cannot connect: Check .env
 
