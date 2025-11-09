@@ -53,5 +53,46 @@ def add():
             err(f"db error (add): {e}")
     return redirect(url_for("index"))
 
+@app.post("/update_email")
+def update_email():
+    sid   = (request.form.get("student_id") or "").strip()
+    email = (request.form.get("new_email") or "").strip().lower()
+
+    if not sid.isdigit():
+        err(f'student_id must be a positive integer — got “{sid}”')
+        return redirect(url_for("index"))
+    if not email_ok(email):
+        err(f'email invalid — got “{email}” → use name@domain.tld')
+        return redirect(url_for("index"))
+
+    try:
+        with get_conn() as c, c.cursor() as cur:
+            cur.execute("update students set email=%s where student_id=%s;", (email, int(sid)))
+            if cur.rowcount == 0:
+                err(f'no student with id {sid} → pick an id from the table')
+            else:
+                ok("email updated")
+    except psycopg2.Error as e:
+        if e.pgcode == "23505":
+            err(f'that email is already in use — “{email}”')
+        else:
+            err(f"db error (update): {e}")
+    return redirect(url_for("index"))
+
+@app.post("/delete")
+def delete():
+    sid = (request.form.get("student_id") or "").strip()
+    if not sid.isdigit():
+        err(f'student_id must be a positive integer — got “{sid}”')
+        return redirect(url_for("index"))
+
+    with get_conn() as c, c.cursor() as cur:
+        cur.execute("delete from students where student_id=%s;", (int(sid),))
+        if cur.rowcount:
+            ok("student deleted")
+        else:
+            err(f'no student with id {sid} → pick an id from the table')
+    return redirect(url_for("index"))
+
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
