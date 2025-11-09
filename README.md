@@ -12,7 +12,7 @@ A minimal web app that demonstrates **CRUD** on a `students` table in **PostgreS
 
 ---
 
-## 1) File Flow
+## 1) Repo Files for Flow
 
 **app/**
 - `flask_app.py` — Flask web application (CRUD logic + routes)
@@ -52,37 +52,52 @@ A minimal web app that demonstrates **CRUD** on a `students` table in **PostgreS
 
 ## 4) Database Setup (pgAdmin or psql)
 
-### Option A — pgAdmin (GUI)
+### 4.1 Create the Database (Required)
 
+You must create the database before running the SQL scripts.
+
+#### Option A — pgAdmin (GUI)
 1. Open **pgAdmin**
-2. Select or create a database (ex: `comp3005_a3`)
+2. Right-click **Databases → Create → Database…**
+3. Name the database:
+
+**comp3005_a3**
+4. Click **Save**
+
+#### Option B — psql (terminal)
+```bash
+createdb -U postgres comp3005_a3
+```
+If the database already exists, you may skip this step.
+
+###  4.2 Create the Table and Insert Sample Data
+#### Option A — pgAdmin (GUI)
+
+1. Open comp3005_a3
+2. Open Query Tool
 3. Run:
-
-i.
 `db/01_create_table.sql`
-
-ii.
+4. Then run:
 `db/02_insert.sql`
 
+####  Option B — psql (terminal)
+`psql -U postgres -d comp3005_a3 -f db/01_create_table.sql`
+`psql -U postgres -d comp3005_a3 -f db/02_insert.sql`
 
-### Option B — psql (terminal)
-
-```bash
-psql -U postgres -d comp3005_a3 -f db/01_create_table.sql
-psql -U postgres -d comp3005_a3 -f db/02_insert.sql
+###  4.3 Create the Table and Insert Sample Data
+Run in pgAdmin or psql:
+```sql
+SELECT * FROM students;
 ```
+**Expected sample output:**
 
-The table is now created by `db/01_create_table.sql` and initially populated by `db/02_insert.sql`:
+| student_id | first_name | last_name | email                    | enrollment_date |
+|------------|------------|-----------|--------------------------|-----------------|
+| 1          | John       | Doe       | john.doe@example.com     | 2023-09-01      |
+| 2          | Jane       | Smith     | jane.smith@example.com   | 2023-09-01      |
+| 3          | Jim        | Beam      | jim.beam@example.com     | 2023-09-02      |
 
-`SELECT * FROM students;`
-```
- student_id | first_name | last_name |         email          | enrollment_date
-------------+------------+-----------+------------------------+-----------------
-          1 | John       | Doe       | john.doe@example.com   | 2023-09-01
-          2 | Jane       | Smith     | jane.smith@example.com | 2023-09-01
-          3 | Jim        | Beam      | jim.beam@example.com   | 2023-09-02
 (3 rows)
-```
 ---
 
 ## 5) Environment Configuration
@@ -101,23 +116,22 @@ PGDATABASE=comp3005_a3
 PGUSER=postgres
 PGPASSWORD=your_password_here
 ```
-## 6) Install & Run the App
+5) Install & Run the App
 
-```bash
+```
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python app/test_connection.py    # optional: verify DB connectivity
+python app/flask_app.py          # run the app
 ```
-**Run the application:**
-`python app/flask_app.py`
 
-**Now open the UI in your browser:**
+Open the UI in your browser:
 http://127.0.0.1:5000
 
 ---
 
-## 7) CRUD Demonstration
+## 6) CRUD Demonstration
 
 | Operation  | Where to Perform It            | Verification                    |
 | ---------- | ------------------------------ | ------------------------------- |
@@ -138,7 +152,7 @@ SELECT * FROM students;
 ```
 ---
 
-## 8) Troubleshooting
+## 7) Troubleshooting
 
 - Wrong password / cannot connect: Check .env
 
