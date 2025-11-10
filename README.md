@@ -7,8 +7,8 @@ A minimal web app that demonstrates **CRUD** on a `students` table in **PostgreS
 - Safe DB access (**parameterized queries**) and **unique email** enforcement
 - Fun demo :-)
 
-> **Video demo:** 
-> video shows: running the SQL in pgAdmin, then performing **INSERT / UPDATE / DELETE** in the Flask app and verifying each result in pgAdmin.
+## **Video demo:**
+Link: https://drive.google.com/file/d/1qGWlPXBdKYtNlwD5EmaXZmShGXyCvRgR/view?usp=sharing
 
 ---
 
